@@ -1,17 +1,51 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var config = function config($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider.state('root', {
+    abstract: true,
+    templateUrl: 'templates/app-layout/layout.tpl.html'
+  }).state('root.home', {
+    url: '/',
+    controller: 'HomeController as vm',
+    templateUrl: 'templates/app-layout/home.tpl.html'
+  }).state('root.wishes', {
+    url: '/wishes',
+    controller: 'WishesController as vm',
+    templateUrl: 'templates/app-wish/wishes.tpl.html'
+  });
+};
+
+config.$inject = ['$stateProvider', '$urlRouterProvider'];
+
+exports['default'] = config;
+module.exports = exports['default'];
+
+},{}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var config = function config() {};
-
-config.$inject = [];
-
-exports["default"] = config;
+exports["default"] = {};
 module.exports = exports["default"];
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = {};
+module.exports = exports["default"];
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -26,9 +60,30 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
-_angular2['default'].module('app.core', ['ui.router']).config(_config2['default']);
+var _constantsParseConstant = require('./constants/parse.constant');
 
-},{"./config":1,"angular":8,"angular-ui-router":6}],3:[function(require,module,exports){
+var _constantsParseConstant2 = _interopRequireDefault(_constantsParseConstant);
+
+var _constantsFileserverConstant = require('./constants/fileserver.constant');
+
+var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverConstant);
+
+_angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('PARSE', _constantsParseConstant2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
+
+},{"./config":1,"./constants/fileserver.constant":2,"./constants/parse.constant":3,"angular":12,"angular-ui-router":10}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var HomeController = function HomeController() {};
+
+HomeController.$inject = [];
+
+exports["default"] = HomeController;
+module.exports = exports["default"];
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -37,9 +92,26 @@ var _angular = require('angular');
 
 var _angular2 = _interopRequireDefault(_angular);
 
-_angular2['default'].module('app.layout', []);
+var _controllersHomeController = require('./controllers/home.controller');
 
-},{"angular":8}],4:[function(require,module,exports){
+var _controllersHomeController2 = _interopRequireDefault(_controllersHomeController);
+
+_angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
+
+},{"./controllers/home.controller":5,"angular":12}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var WishesController = function WishesController() {};
+
+WishesController.$inject = [];
+
+exports["default"] = WishesController;
+module.exports = exports["default"];
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -50,9 +122,13 @@ var _angular2 = _interopRequireDefault(_angular);
 
 require('../app-core/index');
 
-_angular2['default'].module('app.wish', ['app.core']);
+var _controllersWishesController = require('./controllers/wishes.controller');
 
-},{"../app-core/index":2,"angular":8}],5:[function(require,module,exports){
+var _controllersWishesController2 = _interopRequireDefault(_controllersWishesController);
+
+_angular2['default'].module('app.wish', ['app.core']).controller('WishesController', _controllersWishesController2['default']);
+
+},{"../app-core/index":4,"./controllers/wishes.controller":7,"angular":12}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -69,7 +145,7 @@ require('./app-wish/index');
 
 _angular2['default'].module('app', ['app.core', 'app.layout', 'app.wish']);
 
-},{"./app-core/index":2,"./app-layout/index":3,"./app-wish/index":4,"angular":8}],6:[function(require,module,exports){
+},{"./app-core/index":4,"./app-layout/index":6,"./app-wish/index":8,"angular":12}],10:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4440,7 +4516,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33459,11 +33535,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}]},{},[5])
+},{"./angular":11}]},{},[9])
 
 
 //# sourceMappingURL=main.js.map
