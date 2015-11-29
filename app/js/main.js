@@ -124,7 +124,7 @@ _angular2['default'].module('app.layout', []).controller('HomeController', _cont
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var WishesAddController = function WishesAddController(WishService) {
+var WishesAddController = function WishesAddController(WishService, $state) {
 
   var vm = this;
 
@@ -132,12 +132,14 @@ var WishesAddController = function WishesAddController(WishService) {
 
   function addWish(wishobj) {
     WishService.addWish(wishobj).then(function (res) {
-      console.log(res);
+      vm.wish = {};
+      // console.log(res);
+      $state.go('root.wishes');
     });
   }
 };
 
-WishesAddController.$inject = ['WishService'];
+WishesAddController.$inject = ['WishService', '$state'];
 
 exports['default'] = WishesAddController;
 module.exports = exports['default'];

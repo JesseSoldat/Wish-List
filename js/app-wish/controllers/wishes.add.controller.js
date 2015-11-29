@@ -1,4 +1,4 @@
-let WishesAddController = function(WishService) {
+let WishesAddController = function(WishService, $state) {
   
   let vm = this;
 
@@ -6,13 +6,16 @@ let WishesAddController = function(WishService) {
 
   function addWish (wishobj) {
     WishService.addWish(wishobj).then( (res) => {
-      console.log(res);
+      vm.wish = {};
+      // console.log(res);
+      $state.go('root.wishes')
+
     })
   }
   
 
 };
 
-WishesAddController.$inject = ['WishService'];
+WishesAddController.$inject = ['WishService', '$state'];
 
 export default WishesAddController;
