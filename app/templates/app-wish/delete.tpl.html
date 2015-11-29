@@ -1,7 +1,9 @@
-<div class="panel">
-  <h4>are you sure you want to delete this?</h4>
-  <h5>{{vm.wish.title}}</h5>
+<h4 class="deleteTitle">Are you sure you want to delete this?</h4>
+
+<div class="panel delete">
+  <h5 class="deleteTitle2">{{vm.wish.title}}</h5>
   <p>{{vm.wish.description}}</p>
   <img ng-src="{{vm.wish.url1}}">
+  <br>
   <button ng-click="vm.deleteWish(vm.wish)">Confirm</button>
 </div>

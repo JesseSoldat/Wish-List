@@ -252,7 +252,7 @@ var wishItem = function wishItem($state, WishService) {
     scope: {
       wish: '='
     },
-    template: '\n      <div class="panel">\n        <h5>{{wish.title}}</h5>\n        <p>{{wish.description}}</p>\n        <img ng-src="{{wish.url1}}">\n        <a href="#/edit/{{wish.objectId}}">Edit -- </a>\n        <a href="#/delete/{{wish.objectId}}">Delete</a>\n      </div>\n      ',
+    template: '\n      <div class="panel">\n        <h5 class="wishTitle">{{wish.title}}</h5>\n        <p>{{wish.description}}</p>\n        <img ng-src="{{wish.url1}}">\n        <br>\n        <a href="#/edit/{{wish.objectId}}">Edit -- </a>\n        <a href="#/delete/{{wish.objectId}}">Delete</a>\n      </div>\n      ',
     controller: 'WishesController as vm',
     link: function link(scope, element, attrs) {}
   };

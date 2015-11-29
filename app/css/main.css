@@ -6390,8 +6390,18 @@ th.hide-for-touch {
 body {
   background: #e2ebf3; }
 
-img {
-  max-height: 250px; }
+.wishTitle {
+  text-decoration: underline;
+  font-weight: bold; }
+
+.panel img {
+  max-height: 250px;
+  margin: 0 auto;
+  border-radius: 3px; }
+
+button {
+  margin: 2%;
+  border: 1px solid black; }
 
 .panel {
   display: inline-block;
@@ -6401,5 +6411,30 @@ img {
   border: 2px solid black;
   border-radius: 4px;
   box-shadow: 5px 5px 5px black; }
+
+.delete {
+  width: 60%; }
+
+.deleteTitle {
+  text-decoration: underline;
+  font-weight: bold;
+  margin: 2% 3%; }
+
+.deleteTitle2 {
+  text-decoration: underline;
+  font-weight: bold; }
+
+.homeWrapper {
+  width: 70%;
+  margin: 5% auto; }
+  .homeWrapper img {
+    border: 2px solid #FDEEDA;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px #FDEEDA;
+    margin-top: 3%; }
+
+.siteForm {
+  width: 50%;
+  margin: 5% auto; }
 
 /*# sourceMappingURL=main.css.map */
