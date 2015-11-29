@@ -119,17 +119,28 @@ var _controllersHomeController2 = _interopRequireDefault(_controllersHomeControl
 _angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
 
 },{"./controllers/home.controller":5,"angular":15}],7:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var WishesAddController = function WishesAddController() {};
+var WishesAddController = function WishesAddController(WishService) {
 
-WishesAddController.$inject = [];
+  var vm = this;
 
-exports["default"] = WishesAddController;
-module.exports = exports["default"];
+  vm.addWish = addWish;
+
+  function addWish(wishobj) {
+    WishService.addWish(wishobj).then(function (res) {
+      console.log(res);
+    });
+  }
+};
+
+WishesAddController.$inject = ['WishService'];
+
+exports['default'] = WishesAddController;
+module.exports = exports['default'];
 
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -221,10 +232,24 @@ var WishService = function WishService($http, PARSE) {
   var url = PARSE.URL + 'classes/wishes';
 
   this.getAllWishes = getAllWishes;
+  this.addWish = addWish;
 
   function getAllWishes() {
     return $http.get(url, PARSE.CONFIG);
   }
+  //Add a Wish
+  function Wish(wishObj) {
+    this.title = wishObj.title;
+    this.description = wishObj.description;
+    this.url1 = wishObj.url1;
+    this.url2 = wishObj.url2;
+    this.url3 = wishObj.url3;
+  }
+
+  function addWish(obj) {
+    var w = new Wish(obj);
+    return $http.post(url, w, PARSE.CONFIG);
+  };
 };
 
 WishService.$inject = ['$http', 'PARSE'];

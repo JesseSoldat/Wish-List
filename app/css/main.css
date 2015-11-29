@@ -6391,6 +6391,8 @@ body {
   background: #e2ebf3; }
 
 .panel {
-  width: 50%; }
+  float: left;
+  margin: 3%;
+  width: 40%; }
 
 /*# sourceMappingURL=main.css.map */
