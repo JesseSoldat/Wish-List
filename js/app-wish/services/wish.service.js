@@ -6,6 +6,7 @@ let WishService = function($http, PARSE) {
   this.addWish                = addWish;
   this.editWish               = editWish;
   this.getWish                = getWish;
+  this.deleteWish             = deleteWish;
   
   function getAllWishes() {
     return $http.get(url, PARSE.CONFIG);
@@ -32,6 +33,11 @@ let WishService = function($http, PARSE) {
 
   function editWish(obj) {
     return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
+  }
+
+  function deleteWish(obj) {
+    // console.log(obj);
+    return $http.delete(url + '/' + obj.objectId, PARSE.CONFIG);
   }
 
 };

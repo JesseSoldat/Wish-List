@@ -1,4 +1,4 @@
-let EditController = function($stateParams, WishService) {
+let EditController = function($stateParams, WishService, $state) {
   
   let vm = this;
 
@@ -14,6 +14,7 @@ let EditController = function($stateParams, WishService) {
   function editWish (wish) {
     WishService.editWish(wish).then( (res) => {
       // console.log(res);
+      $state.go('root.wishes')
     });
   }
 
@@ -22,6 +23,6 @@ let EditController = function($stateParams, WishService) {
 
 };
 
-EditController.$inject = ['$stateParams', 'WishService'];
+EditController.$inject = ['$stateParams', 'WishService', '$state'];
 
 export default EditController;

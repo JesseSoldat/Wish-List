@@ -27,6 +27,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'EditController as vm',
       templateUrl: 'templates/app-wish/edit.tpl.html'
     })
+    .state('root.delete', {
+      url: '/delete/:id',
+      controller: 'DeleteController as vm',
+      templateUrl: 'templates/app-wish/delete.tpl.html'
+    })
   
   
 

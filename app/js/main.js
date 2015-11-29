@@ -27,6 +27,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/edit/:id',
     controller: 'EditController as vm',
     templateUrl: 'templates/app-wish/edit.tpl.html'
+  }).state('root.delete', {
+    url: '/delete/:id',
+    controller: 'DeleteController as vm',
+    templateUrl: 'templates/app-wish/delete.tpl.html'
   });
 };
 
@@ -94,7 +98,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('PARSE', _constantsParseConstant2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":1,"./constants/fileserver.constant":2,"./constants/parse.constant":3,"angular":16,"angular-ui-router":14}],5:[function(require,module,exports){
+},{"./config":1,"./constants/fileserver.constant":2,"./constants/parse.constant":3,"angular":17,"angular-ui-router":15}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -122,7 +126,7 @@ var _controllersHomeController2 = _interopRequireDefault(_controllersHomeControl
 
 _angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
 
-},{"./controllers/home.controller":5,"angular":16}],7:[function(require,module,exports){
+},{"./controllers/home.controller":5,"angular":17}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -179,7 +183,38 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var EditController = function EditController($stateParams, WishService) {
+var DeleteController = function DeleteController($stateParams, WishService, $state) {
+
+  var vm = this;
+
+  vm.deleteWish = deleteWish;
+
+  WishService.getWish($stateParams.id).then(function (res) {
+    // console.log(res);
+    vm.wish = res.data;
+  });
+
+  function deleteWish(wish) {
+    // console.log('delete:', wish);
+    WishService.deleteWish(wish).then(function (res) {
+      // console.log(res);
+      $state.go('root.wishes');
+    });
+  }
+};
+
+DeleteController.$inject = ['$stateParams', 'WishService', '$state'];
+
+exports['default'] = DeleteController;
+module.exports = exports['default'];
+
+},{}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var EditController = function EditController($stateParams, WishService, $state) {
 
   var vm = this;
 
@@ -193,16 +228,17 @@ var EditController = function EditController($stateParams, WishService) {
   function editWish(wish) {
     WishService.editWish(wish).then(function (res) {
       // console.log(res);
+      $state.go('root.wishes');
     });
   }
 };
 
-EditController.$inject = ['$stateParams', 'WishService'];
+EditController.$inject = ['$stateParams', 'WishService', '$state'];
 
 exports['default'] = EditController;
 module.exports = exports['default'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -216,7 +252,7 @@ var wishItem = function wishItem($state, WishService) {
     scope: {
       wish: '='
     },
-    template: '\n      <div class="panel">\n        <h5>{{wish.title}}</h5>\n        <p>{{wish.description}}</p>\n        <img ng-src="{{wish.url1}}">\n        <a href="#/edit/{{wish.objectId}}">Edit</a>\n      </div>\n      ',
+    template: '\n      <div class="panel">\n        <h5>{{wish.title}}</h5>\n        <p>{{wish.description}}</p>\n        <img ng-src="{{wish.url1}}">\n        <a href="#/edit/{{wish.objectId}}">Edit -- </a>\n        <a href="#/delete/{{wish.objectId}}">Delete</a>\n      </div>\n      ',
     controller: 'WishesController as vm',
     link: function link(scope, element, attrs) {}
   };
@@ -227,7 +263,7 @@ wishItem.$inject = ['$state', 'WishService'];
 exports['default'] = wishItem;
 module.exports = exports['default'];
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -250,6 +286,10 @@ var _controllersWishesEditController = require('./controllers/wishes.edit.contro
 
 var _controllersWishesEditController2 = _interopRequireDefault(_controllersWishesEditController);
 
+var _controllersWishesDeleteController = require('./controllers/wishes.delete.controller');
+
+var _controllersWishesDeleteController2 = _interopRequireDefault(_controllersWishesDeleteController);
+
 var _servicesWishService = require('./services/wish.service');
 
 var _servicesWishService2 = _interopRequireDefault(_servicesWishService);
@@ -258,9 +298,9 @@ var _directivesWishesDirective = require('./directives/wishes.directive');
 
 var _directivesWishesDirective2 = _interopRequireDefault(_directivesWishesDirective);
 
-_angular2['default'].module('app.wish', ['app.core']).controller('WishesController', _controllersWishesController2['default']).controller('WishesAddController', _controllersWishesAddController2['default']).controller('EditController', _controllersWishesEditController2['default']).service('WishService', _servicesWishService2['default']).directive('wishItem', _directivesWishesDirective2['default']);
+_angular2['default'].module('app.wish', ['app.core']).controller('WishesController', _controllersWishesController2['default']).controller('WishesAddController', _controllersWishesAddController2['default']).controller('EditController', _controllersWishesEditController2['default']).controller('DeleteController', _controllersWishesDeleteController2['default']).service('WishService', _servicesWishService2['default']).directive('wishItem', _directivesWishesDirective2['default']);
 
-},{"../app-core/index":4,"./controllers/wishes.add.controller":7,"./controllers/wishes.controller":8,"./controllers/wishes.edit.controller":9,"./directives/wishes.directive":10,"./services/wish.service":12,"angular":16}],12:[function(require,module,exports){
+},{"../app-core/index":4,"./controllers/wishes.add.controller":7,"./controllers/wishes.controller":8,"./controllers/wishes.delete.controller":9,"./controllers/wishes.edit.controller":10,"./directives/wishes.directive":11,"./services/wish.service":13,"angular":17}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -274,6 +314,7 @@ var WishService = function WishService($http, PARSE) {
   this.addWish = addWish;
   this.editWish = editWish;
   this.getWish = getWish;
+  this.deleteWish = deleteWish;
 
   function getAllWishes() {
     return $http.get(url, PARSE.CONFIG);
@@ -299,6 +340,11 @@ var WishService = function WishService($http, PARSE) {
   function editWish(obj) {
     return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
   }
+
+  function deleteWish(obj) {
+    // console.log(obj);
+    return $http['delete'](url + '/' + obj.objectId, PARSE.CONFIG);
+  }
 };
 
 WishService.$inject = ['$http', 'PARSE'];
@@ -306,7 +352,7 @@ WishService.$inject = ['$http', 'PARSE'];
 exports['default'] = WishService;
 module.exports = exports['default'];
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -323,7 +369,7 @@ require('./app-wish/index');
 
 _angular2['default'].module('app', ['app.core', 'app.layout', 'app.wish']);
 
-},{"./app-core/index":4,"./app-layout/index":6,"./app-wish/index":11,"angular":16}],14:[function(require,module,exports){
+},{"./app-core/index":4,"./app-layout/index":6,"./app-wish/index":12,"angular":17}],15:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4694,7 +4740,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33713,11 +33759,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":15}]},{},[13])
+},{"./angular":16}]},{},[14])
 
 
 //# sourceMappingURL=main.js.map
