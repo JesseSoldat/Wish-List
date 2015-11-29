@@ -19,6 +19,10 @@ var config = function config($stateProvider, $urlRouterProvider) {
     url: '/wishes',
     controller: 'WishesController as vm',
     templateUrl: 'templates/app-wish/wishes.tpl.html'
+  }).state('root.addWish', {
+    url: '/wishes/add',
+    controller: 'WishesAddController as vm',
+    templateUrl: 'templates/app-wish/wishes-add.tpl.html'
   });
 };
 
@@ -28,22 +32,38 @@ exports['default'] = config;
 module.exports = exports['default'];
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports["default"] = {};
-module.exports = exports["default"];
+exports['default'] = {
+  URL: 'https://infinite-tor-5730.herokuapp.com/wishes/4/grants',
+  CONFIG: {
+    headers: {
+      'Access-Token': 'e2f6a3294d967cf16d334e4cb31cfa4c',
+      'Content-Type': undefined
+    }
+  }
+};
+module.exports = exports['default'];
 
 },{}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports["default"] = {};
-module.exports = exports["default"];
+exports['default'] = {
+  URL: 'https://api.parse.com/1/',
+  CONFIG: {
+    headers: {
+      'X-Parse-Application-Id': 'Xwv2wOjKT0TBhwPeLJtzpIxG5eUqEYRkODyUDhiB',
+      'X-Parse-REST-API-Key': 'As7EEVYvtAS9lysjKrm8UZnOWGRqwoJDqNqaCCa4'
+    }
+  }
+};
+module.exports = exports['default'];
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -70,7 +90,7 @@ var _constantsFileserverConstant2 = _interopRequireDefault(_constantsFileserverC
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('PARSE', _constantsParseConstant2['default']).constant('FILESERVER', _constantsFileserverConstant2['default']);
 
-},{"./config":1,"./constants/fileserver.constant":2,"./constants/parse.constant":3,"angular":12,"angular-ui-router":10}],5:[function(require,module,exports){
+},{"./config":1,"./constants/fileserver.constant":2,"./constants/parse.constant":3,"angular":15,"angular-ui-router":13}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -98,20 +118,70 @@ var _controllersHomeController2 = _interopRequireDefault(_controllersHomeControl
 
 _angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
 
-},{"./controllers/home.controller":5,"angular":12}],7:[function(require,module,exports){
+},{"./controllers/home.controller":5,"angular":15}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var WishesController = function WishesController() {};
+var WishesAddController = function WishesAddController() {};
 
-WishesController.$inject = [];
+WishesAddController.$inject = [];
 
-exports["default"] = WishesController;
+exports["default"] = WishesAddController;
 module.exports = exports["default"];
 
 },{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var WishesController = function WishesController(WishService) {
+
+  var vm = this;
+
+  activate();
+
+  function activate() {
+    WishService.getAllWishes().then(function (res) {
+      // console.log(res);
+      vm.wishes = res.data.results;
+    });
+  }
+};
+
+WishesController.$inject = ['WishService'];
+
+exports['default'] = WishesController;
+module.exports = exports['default'];
+
+},{}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var wishItem = function wishItem($state, WishService) {
+
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      wish: '='
+    },
+    template: '\n      <div class="panel">\n        <h5>{{wish.title}}</h5>\n        <p>{{wish.description}}</p>\n        <img ng-src="{{wish.url1}}">\n      </div>\n      ',
+    controller: 'WishesController as vm',
+    link: function link(scope, element, attrs) {}
+  };
+};
+
+wishItem.$inject = ['$state', 'WishService'];
+
+exports['default'] = wishItem;
+module.exports = exports['default'];
+
+},{}],10:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -126,9 +196,43 @@ var _controllersWishesController = require('./controllers/wishes.controller');
 
 var _controllersWishesController2 = _interopRequireDefault(_controllersWishesController);
 
-_angular2['default'].module('app.wish', ['app.core']).controller('WishesController', _controllersWishesController2['default']);
+var _controllersWishesAddController = require('./controllers/wishes.add.controller');
 
-},{"../app-core/index":4,"./controllers/wishes.controller":7,"angular":12}],9:[function(require,module,exports){
+var _controllersWishesAddController2 = _interopRequireDefault(_controllersWishesAddController);
+
+var _servicesWishService = require('./services/wish.service');
+
+var _servicesWishService2 = _interopRequireDefault(_servicesWishService);
+
+var _directivesWishesDirective = require('./directives/wishes.directive');
+
+var _directivesWishesDirective2 = _interopRequireDefault(_directivesWishesDirective);
+
+_angular2['default'].module('app.wish', ['app.core']).controller('WishesController', _controllersWishesController2['default']).controller('WishesAddController', _controllersWishesAddController2['default']).service('WishService', _servicesWishService2['default']).directive('wishItem', _directivesWishesDirective2['default']);
+
+},{"../app-core/index":4,"./controllers/wishes.add.controller":7,"./controllers/wishes.controller":8,"./directives/wishes.directive":9,"./services/wish.service":11,"angular":15}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var WishService = function WishService($http, PARSE) {
+
+  var url = PARSE.URL + 'classes/wishes';
+
+  this.getAllWishes = getAllWishes;
+
+  function getAllWishes() {
+    return $http.get(url, PARSE.CONFIG);
+  }
+};
+
+WishService.$inject = ['$http', 'PARSE'];
+
+exports['default'] = WishService;
+module.exports = exports['default'];
+
+},{}],12:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -145,7 +249,7 @@ require('./app-wish/index');
 
 _angular2['default'].module('app', ['app.core', 'app.layout', 'app.wish']);
 
-},{"./app-core/index":4,"./app-layout/index":6,"./app-wish/index":8,"angular":12}],10:[function(require,module,exports){
+},{"./app-core/index":4,"./app-layout/index":6,"./app-wish/index":10,"angular":15}],13:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4516,7 +4620,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.8
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33535,11 +33639,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":11}]},{},[9])
+},{"./angular":14}]},{},[12])
 
 
 //# sourceMappingURL=main.js.map

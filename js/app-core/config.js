@@ -17,6 +17,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'WishesController as vm',
       templateUrl: 'templates/app-wish/wishes.tpl.html'
     })
+    .state('root.addWish', {
+      url: '/wishes/add',
+      controller: 'WishesAddController as vm',
+      templateUrl: 'templates/app-wish/wishes-add.tpl.html'
+    })
   
   
 

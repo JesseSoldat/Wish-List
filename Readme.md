@@ -1,7 +1,8 @@
 ## Welcome to My Project
 
-> I am your Readme.md file, you should probably update me.
+This is an app based on the Car Tracker app that we did in class. This app allows users to add ‘wishes’. These ‘wishes’, can be any thing from places they want to go, to people they would like to meet. Wishes can contain the name of the wish, date created, a short description of the wish or a picture.
 
+angular / angular-ui-router / foundation
 
 ## Usage
 
