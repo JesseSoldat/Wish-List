@@ -22,6 +22,11 @@ let config = function($stateProvider, $urlRouterProvider) {
       controller: 'WishesAddController as vm',
       templateUrl: 'templates/app-wish/wishes-add.tpl.html'
     })
+    .state('root.edit', {
+      url: '/edit/:id',
+      controller: 'EditController as vm',
+      templateUrl: 'templates/app-wish/edit.tpl.html'
+    })
   
   
 

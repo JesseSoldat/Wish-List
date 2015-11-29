@@ -11,6 +11,7 @@ let wishItem = function($state, WishService) {
         <h5>{{wish.title}}</h5>
         <p>{{wish.description}}</p>
         <img ng-src="{{wish.url1}}">
+        <a href="#/edit/{{wish.objectId}}">Edit</a>
       </div>
       `,
     controller: 'WishesController as vm',

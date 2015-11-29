@@ -3,6 +3,7 @@ import '../app-core/index';
 
 import WishesController from './controllers/wishes.controller';
 import WishesAddController from './controllers/wishes.add.controller';
+import EditController from './controllers/wishes.edit.controller';
 
 import WishService from './services/wish.service';
 
@@ -14,6 +15,7 @@ angular
   .module('app.wish', ['app.core'])
   .controller('WishesController', WishesController)
   .controller('WishesAddController', WishesAddController)
+  .controller('EditController', EditController)
 
   .service('WishService', WishService)
 

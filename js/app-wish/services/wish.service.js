@@ -4,9 +4,15 @@ let WishService = function($http, PARSE) {
 
   this.getAllWishes           = getAllWishes;
   this.addWish                = addWish;
+  this.editWish               = editWish;
+  this.getWish                = getWish;
   
   function getAllWishes() {
     return $http.get(url, PARSE.CONFIG);
+  }
+
+  function getWish(id){
+    return $http.get(url + '/' + id, PARSE.CONFIG)
   }
   //Add a Wish
   function Wish(wishObj) {
@@ -23,6 +29,10 @@ let WishService = function($http, PARSE) {
     return $http.post(url, w, PARSE.CONFIG);
 
   };
+
+  function editWish(obj) {
+    return $http.put(url + '/' + obj.objectId, obj, PARSE.CONFIG);
+  }
 
 };
 
